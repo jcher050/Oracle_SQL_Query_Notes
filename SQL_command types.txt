@@ -1,0 +1,71 @@
+
+1---Data definition language (DDL) commands enable you to perform the following tasks.  
+
+Implicit commit
+
+Create, alter, and drop schema objects
+Grant and revoke privileges and roles
+Add comments to the data dictionary
+The CREATE, ALTER, and DROP commands require exclusive access to the object being acted upon. 
+For example, an ALTER TABLE command fails if another user has an open transaction on the specified table.
+
+ALTER SEQUENCE
+CREATE PROCEDURE
+DROP INDEX
+ALTER SESSION
+CREATE SCHEMA
+DROP JAVA
+ALTER TABLE
+CREATE SEQUENCE
+DROP PROCEDURE
+ALTER TRIGGER
+CREATE SYNONYM
+DROP SCHEMA
+ALTER USER
+GRANT
+DROP SEQUENCE
+ALTER VIEW
+REVOKE
+DROP SYNONYM
+CREATE DATABASE
+CREATE TABLE
+DROP TABLE
+CREATE FUNCTION
+CREATE TRIGGER
+DROP TRIGGER
+CREATE GLOBAL TEMPORARY TABLE
+CREATE USER
+DROP USER
+CREATE INDEX
+CREATE VIEW
+DROP VIEW
+CREATE JAVA
+DROP FUNCTION
+TRUNCATE TABLE
+
+
+
+
+2---Data manipulation language (DML) commands query and manipulate data in existing schema objects. 
+
+These commands do not implicitly commit the current transaction.
+
+DELETE
+SELECT
+EXPLAIN PLAN
+subquery::=
+INSERT
+UPDATE
+
+
+3---Transaction control commands manage changes made by DML commands.
+
+COMMIT
+SAVEPOINT
+ROLLBACK
+SET TRANSACTION
+
+4---Clauses are subsets of commands that modify the command.
+
+CONSTRAINT clause
+DROP clause

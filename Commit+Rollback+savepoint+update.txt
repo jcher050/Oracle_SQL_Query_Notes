@@ -1,0 +1,46 @@
+Use the COMMIT statement to end your current transaction and 
+make permanent all changes performed in the transaction.
+Oracle Database issues an implicit COMMIT before and after any data definition language (DDL) statement.
+The WORK keyword is supported for compliance with standard SQL. 
+The statements COMMIT and COMMIT WORK are equivalen
+
+
+INSERT INTO regions VALUES (5, 'Antarctica'); 
+
+COMMIT WORK;
+
+
+
+
+Use the SAVEPOINT statement to identify a point in a transaction to which you can later roll back
+Use the ROLLBACK statement to undo work done in the current transaction or to manually undo 
+the work done by an in-doubt distributed transaction.
+Use the UPDATE statement to change existing values in a table or in the base table of a view or 
+the master table of a materialized view.
+
+
+
+
+
+
+
+
+UPDATE employees 
+    SET salary = 7000 
+    WHERE last_name = 'Banda';
+SAVEPOINT banda_sal;
+
+UPDATE employees 
+    SET salary = 12000 
+    WHERE last_name = 'Greene';
+SAVEPOINT greene_sal;
+
+SELECT SUM(salary) FROM employees;
+
+ROLLBACK TO SAVEPOINT banda_sal;
+ 
+UPDATE employees 
+    SET salary = 11000 
+    WHERE last_name = 'Greene';
+ 
+COMMIT; 
