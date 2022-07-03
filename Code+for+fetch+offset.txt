@@ -1,0 +1,125 @@
+The following query uses the LIMIT clause to get the top 5 products with the highest inventory level:
+
+SELECT
+	product_name,
+	quantity
+FROM
+	inventories
+INNER JOIN products
+		USING(product_id)
+ORDER BY
+	quantity DESC 
+LIMIT 5;
+
+
+
+
+
+
+In this example, the ORDER BY clause sorts the products by stock quantity in descending order and the LIMIT clause returns only the first 5 products with the highest stock quantity.
+
+Oracle Database does not have the LIMIT clause. However, since 12c release, it provided a similar but more flexible clause named row limiting clause.
+
+By using the row limiting clause, you can rewrite the query that uses the LIMIT clause above as follows:
+
+
+
+
+SELECT
+    product_name,
+    quantity
+FROM
+    inventories
+INNER JOIN products
+        USING(product_id)
+ORDER BY
+    quantity DESC 
+FETCH NEXT 5 ROWS ONLY;
+
+
+
+
+
+OFFSET clause
+The OFFSET clause specifies the number of rows to skip before the row limiting starts. The OFFSET clause is optional. If you skip it, then offset is 0 and row limiting starts with the first row.
+
+The offset must be a number or an expression that evaluates to a number. The offset is subjected to the following rules:
+
+If the offset is negative, then it is treated as 0.
+If the offset is NULL or greater than the number of rows returned by the query, then no row is returned.
+If the offset includes a fraction, then the fractional portion is truncated.
+ONLY | WITH TIES
+The ONLY returns exactly the number of rows or percentage of rows after FETCH NEXT (or FIRST).
+
+The WITH TIES returns additional rows with the same sort key as the last row fetched. 
+Note that if you use WITH TIES, you must specify an ORDER BY clause in the query. 
+If you don’t, the query will not return the additional rows.
+
+
+
+
+The following statement returns the top 10 products with the highest inventory level:
+
+SELECT
+    product_name,
+    quantity
+FROM
+    inventories
+INNER JOIN products
+        USING(product_id)
+ORDER BY
+    quantity DESC 
+FETCH NEXT 10 ROWS ONLY;
+
+
+
+
+
+
+The following query uses the row limiting clause with the WITH TIES option:
+Even though the query requested 10 rows, because it had the WITH TIES option, 
+the query returned two more additional rows. 
+Notice that these two additional rows have the same value in the quantity column as the row 10.
+
+SELECT
+	product_name,
+	quantity
+FROM
+	inventories
+INNER JOIN products
+		USING(product_id)
+ORDER BY
+	quantity DESC 
+FETCH NEXT 10 ROWS WITH TIES
+
+
+
+
+The following query returns top 5% products with the highest inventory level:
+
+SELECT
+    product_name,
+    quantity
+FROM
+    inventories
+INNER JOIN products
+        USING(product_id)
+ORDER BY
+    quantity DESC 
+FETCH FIRST 5 PERCENT ROWS ONLY;
+
+
+
+The following query skips the first 10 products with the highest level of inventory and returns the next 10 ones:
+
+SELECT
+	product_name,
+	quantity
+FROM
+	inventories
+INNER JOIN products
+		USING(product_id)
+ORDER BY
+	quantity DESC 
+OFFSET 10 ROWS 
+FETCH NEXT 10 ROWS ONLY;
