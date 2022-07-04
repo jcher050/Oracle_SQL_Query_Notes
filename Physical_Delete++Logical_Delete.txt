@@ -1,0 +1,36 @@
+Dropping Columns
+Oracle 8i introduced the ability to drop a column from a table. Prior to this it was necessary to drop the entire table and rebuild it. Now you can mark a column as unused (logical delete) or delete it completely (physical delete).
+
+Logical Delete
+Physical Delete
+Considerations
+Logical Delete
+On large tables the process of physically removing a column can be very time and resource consuming. For this reason you may decide to logically delete it.
+
+alter table table_name set unused (column_name);
+alter table table_name set unused (column_name1, column_name2);
+Once this is done the columns will no longer be visible to the user. If at a later date you have time to physically delete the columns this can be done using the following.
+
+alter table table_name drop unused columns;
+On large tables you can reduce the amount of undo logs accumulated by using the CHECKPOINT option which forces a checkpoint after the specified number of rows have been processed.
+
+alter table table_name drop unused columns checkpoint 250;
+The DBA_UNUSED_COL_TABS view can be used to view the number of unused columns per table.
+
+Physical Delete
+To physically drop a column you can use one of the following syntaxes, depending on whether you wish to drop a single or multiple columns.
+
+alter table table_name drop column column_name;
+alter table table_name drop (column_name1, column_name2);
+Dropping a column from a table will cause all unused columns in that table to be dropped at the same time.
+
+Considerations
+Dropping a column may not result in additional usable free space in the block. If the column is small, you will only get small chunks of space in each block that may not be reusable. The only way this will be freed up for reuse is to rebuild/move the table. It is more efficient to mark the column as unusable, then rebuild the table. By default a move is not an online operation.
+
+alter table table_name set unused (column_name);
+alter table table_name move;
+In later database versions the move operation can be done online.
+
+alter table table_name set unused (column_name);
+alter table table_name move online;
+Hope this helps. Regards Tim
